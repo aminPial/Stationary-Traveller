@@ -1,0 +1,5 @@
+flask==2.0.2
+pillow==8.4.0
+pip-chill==1.0.1
+pymupdf==1.19.3
+redis==4.0.2

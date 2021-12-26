@@ -1,6 +1,16 @@
-from flask import render_template
+import os
+import sys
+
+import fitz
+from flask import render_template, url_for, send_file
 from flask import redirect
+from werkzeug.utils import secure_filename
+from flask import send_from_directory
+
 from server import app
+from random import randint, shuffle, choices, choice
+from flask import request
+from multiprocessing import Process
 
 
 @app.route('/')
@@ -8,48 +18,123 @@ def home_page():
     return render_template('home.html')
 
 
-@app.route('/categories')
-def go_categories():
-    return render_template('prev/categories.html', categories={'Classic': [], 'Fiction': [],
-                                                               'Thriller': [], 'History': [],
-                                                               'Others': []})
-
-
-@app.route('/profile')
-def go_profile():
-    return render_template('prev/profile.html')
-
-
 @app.route('/registration')
 def go_registration():
-    return render_template('prev/register.html')
-
-
-@app.route('/shops')
-def go_shops():
-    return render_template('prev/shop.html', shops=['BookStore', 'Websites', 'Buy PDF'])
-
-
-@app.route('/about_us')
-def go_about_us():
-    return render_template('prev/about_us.html')
-
-
-@app.route('/reviews')
-def go_reviews():
-    return render_template('prev/reviews.html')
-
-
-@app.route('/authors')
-def go_authors():
-    return render_template('prev/authors.html')
-
-
-@app.route('/read_in')
-def go_read_in():
-    return render_template('prev/read_in.html')
+    return render_template('register.html')
 
 
 @app.route('/login')
 def go_login():
-    return render_template('prev/login.html')
+    return render_template('login.html')
+
+
+@app.route('/categories')
+def go_categories():
+    colors = ['primary', 'success', 'danger', 'info', 'warning']
+    return render_template('categories.html', categories={'Classic': {'sub': ['Avant-Garde',
+                                                                              'Baroque',
+                                                                              'Chant'],
+                                                                      'visitors': randint(100, 1000),
+                                                                      'colors': [choice(colors) for _ in colors]
+                                                                      },
+                                                          'Fiction': {'sub': ['Avant-Garde',
+                                                                              'Baroque',
+                                                                              'Chant'],
+                                                                      'visitors': randint(100, 1000),
+                                                                      'colors': [choice(colors) for _ in colors]
+                                                                      },
+                                                          'Thriller': {'sub': ['Avant-Garde',
+                                                                               'Baroque',
+                                                                               'Chant'],
+                                                                       'visitors': randint(100, 1000),
+                                                                       'colors': [choice(colors) for _ in colors]
+                                                                       },
+                                                          'History': {'sub': ['Avant-Garde',
+                                                                              'Baroque',
+                                                                              'Chant'],
+                                                                      'visitors': randint(100, 1000),
+                                                                      'colors': [choice(colors) for _ in colors]
+                                                                      },
+                                                          'Others': {'sub': ['Avant-Garde',
+                                                                             'Baroque',
+                                                                             'Chant'],
+                                                                     'visitors': randint(100, 1000),
+                                                                     'colors': [choice(colors) for _ in colors]
+                                                                     }})
+
+
+@app.route('/share_books')
+def go_share_books():
+    return render_template('share_books.html')
+
+
+def parse_first_image(file_path: str):
+    pdf_document_object = fitz.open(file_path)
+    page = pdf_document_object.loadPage(0)
+    pix = page.getPixmap(matrix=fitz.Matrix(2, 2))  # 300 DPI
+    pix.writePNG(
+        os.path.join(sys.path[0], 'static', 'pdf_images', "{}.png".format(
+            file_path.split("/")[-1])))
+    print("Done fetching..")
+    return
+
+
+@app.route('/upload_pdf', methods=['POST'])
+def upload_pdf():
+    f = request.files
+    print(f['pdf'])
+    filename = secure_filename(f['pdf'].filename).lstrip().rstrip()
+    if filename:
+        full_file_path = os.path.join(sys.path[0], 'static', 'pdf', "{}".format(filename))
+        f['pdf'].save(full_file_path)
+        Process(target=parse_first_image, args=(full_file_path,)).start()
+    return redirect(url_for('go_share_books'))
+
+
+@app.route('/profile')
+def go_profile():
+    return render_template('profile.html')
+
+
+@app.route('/shops')
+def go_shops():
+    return render_template('shop.html', shops=['BookStore', 'Websites', 'Buy PDF'])
+
+
+@app.route('/about_us')
+def go_about_us():
+    return render_template('about_us.html')
+
+
+@app.route('/reviews')
+def go_reviews():
+    return render_template('reviews.html')
+
+
+@app.route('/authors')
+def go_authors():
+    return render_template('authors.html')
+
+
+@app.route('/read_in')
+def go_read_in():
+    books = [{'book_name': b,
+              'read_by': randint(100, 1000),
+              'book_size': round((os.path.getsize(os.path.join(sys.path[0], 'static', 'pdf', b))) / (1024 ** 2), 2)}
+             for b in os.listdir(os.path.join(sys.path[0], 'static', 'pdf')) if b.endswith(".pdf")]
+    books = [books[i:i + 2] for i in range(0, len(books), 2)]
+    print(books)
+    return render_template('read_in.html', books=books)
+
+
+@app.route('/read_pdf/<pdf_name>')
+def read_pdf(pdf_name: str):
+    assert pdf_name in os.listdir(os.path.join(sys.path[0], 'static', 'pdf'))
+    return render_template('read_pdf.html', pdf_name=pdf_name)
+
+
+@app.route('/download_pdf/<pdf_name>')
+def download_pdf(pdf_name: str):
+    print(pdf_name)
+    assert pdf_name in os.listdir(os.path.join(sys.path[0], 'static', 'pdf'))
+    return send_file(os.path.join(sys.path[0], 'static', 'pdf', pdf_name), as_attachment=True)
