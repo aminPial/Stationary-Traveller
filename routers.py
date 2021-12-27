@@ -138,3 +138,15 @@ def download_pdf(pdf_name: str):
     print(pdf_name)
     assert pdf_name in os.listdir(os.path.join(sys.path[0], 'static', 'pdf'))
     return send_file(os.path.join(sys.path[0], 'static', 'pdf', pdf_name), as_attachment=True)
+
+
+@app.route('/search_for_book/<query_string>')
+def search_for_book(query_string):
+
+    books = [{'book_name': b,
+              'read_by': randint(100, 1000),
+              'book_size': round((os.path.getsize(os.path.join(sys.path[0], 'static', 'pdf', b))) / (1024 ** 2), 2)}
+             for b in os.listdir(os.path.join(sys.path[0], 'static', 'pdf')) if b.endswith(".pdf") and
+             b.lower().find(query_string.lower()) != -1]
+    books = [books[i:i + 2] for i in range(0, len(books), 2)]
+    return render_template('search_result.html', books=books)
