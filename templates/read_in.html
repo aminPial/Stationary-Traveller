@@ -3,10 +3,14 @@
 
 {% block body %}
 
-    <div class="jumbotron text-center" style="text-align: center;padding: 24px;">
-        <h1 class="display-4" style="font-weight: bolder"><b>Stationary Traveller Read In</b></h1>
-        <p class="lead"><b>Read online or download free pdf from here</b></p>
+      <div class="jumbotron text-center" style="text-align: center;">
+     <img src="{{ url_for('static', filename='images/app_logo.png') }}" alt="" width="200"
+                 height="200" class="d-inline-block align-text-top">
+{#        <h3 style="font-weight: bolder"><b>Stationary Traveller</b></h3>#}
+        <h5><b>R E A D &nbsp;&nbsp; I N</b></h5>
+          <p class="lead"><b>Read online or download free pdf from here</b></p>
     </div>
+
 
     <div class="container" style="margin-top: 20px">
         {% for two_books in books %}
@@ -21,7 +25,7 @@
                                 <div class="col-md-4">
                                     {% set my_string = 'pdf/' ~ book['book_name'].split("/")[-1] ~ '.png' %}
                                     <img src="{{ url_for('static', filename=my_string) }}"
-                                         class="img-fluid rounded-start" alt="...">
+                                         class="img-fluid rounded-start" alt="..." width="400px" height="400px">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
