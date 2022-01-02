@@ -5,7 +5,7 @@
         <img src="{{ url_for('static', filename='images/app_logo.png') }}" alt="" width="200"
              height="200" class="d-inline-block align-text-top">
         {#        <h3 style="font-weight: bolder"><b>Stationary Traveller</b></h3>#}
-        <h5><b>A B O U T &nbsp;&nbsp; U S</b></h5>
+        <h5 style="padding: 24px"><b>A B O U T &nbsp;&nbsp; U S</b></h5>
     </div>
 
     <section class="container" style="margin-top: 64px">
@@ -36,46 +36,47 @@
         <div class="jumbotron text-center" style="text-align: center;">
             <h4><b>MEET THE TEAM </b></h4>
 
-            <div class="row" style="margin-top: 48px">
-                <div class="col-sm-6">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="https://pbs.twimg.com/profile_images/988832424191840256/e3dH8lHX_400x400.jpg"
-                                     class="img-fluid rounded-start" alt="..."
-                                     width="400px" height="400px">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sowad Ahmed</h5>
-                                    <h6 class="card-text">Chief Executive Officer</h6>
-                                    <p class="card-text"><small class="text-muted">Hobby: Shooting with AK-47</small>
-                                    </p>
-                                </div>
-                            </div>
+            <div class="container" style="display: flex;
+  justify-content: center;;padding: 24px">
+                <div class="card mb-3"
+                     style="max-width: 500px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ url_for('static', filename='images/sowad.jpeg') }}"
+                                 class="img-fluid rounded-start" alt="Sowad Ahmed"
+                                 width="400px" height="400px">
                         </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="https://pbs.twimg.com/profile_images/1366466342354751491/JyhZpbtu.jpg"
-                                     class="img-fluid rounded-start" alt="..."
-                                     width="400px" height="400px">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Riasat Islam</h5>
-                                    <h6 class="card-text">Chief Technology Officer</h6>
-                                    <p class="card-text"><small class="text-muted">Hobby: Playing FIFA-47</small></p>
-                                </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Sowad Ahmed</h5>
+                                <h6 class="card-text">Chief Executive Officer</h6>
+                                <p class="card-text"><small class="text-muted">Hobby: Shooting with AK-47</small>
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {#                <div class="col-sm-6">#}
+            {#                    <div class="card mb-3" style="max-width: 540px;">#}
+            {#                        <div class="row g-0">#}
+            {#                            <div class="col-md-4">#}
+            {#                                <img src="https://pbs.twimg.com/profile_images/1366466342354751491/JyhZpbtu.jpg"#}
+            {#                                     class="img-fluid rounded-start" alt="..."#}
+            {#                                     width="400px" height="400px">#}
+            {#                            </div>#}
+            {#                            <div class="col-md-8">#}
+            {#                                <div class="card-body">#}
+            {#                                    <h5 class="card-title">Riasat Islam</h5>#}
+            {#                                    <h6 class="card-text">Chief Technology Officer</h6>#}
+            {#                                    <p class="card-text"><small class="text-muted">Hobby: Playing FIFA-47</small></p>#}
+            {#                                </div>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
         </div>
+
     </section>
 
 
