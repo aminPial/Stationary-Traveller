@@ -591,7 +591,7 @@ h1 {
   position: sticky;
   top: 0;
   right: 0;
-  background-color: var(--page-bg-color);
+
   z-index: 2;
 }
 
