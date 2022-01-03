@@ -131,7 +131,12 @@ def go_reviews():
 
 @app.route('/authors')
 def go_authors():
-    return render_template('authors.html')
+    top_authors = [
+        ['J.K Rowling',
+         randint(20, 120),
+         'http://prod-upp-image-read.ft.com/366bccd8-47fa-11e3-b1c4-00144feabdc0']
+    ]
+    return render_template('authors.html', top_authors=top_authors)
 
 
 @app.route('/read_in')
