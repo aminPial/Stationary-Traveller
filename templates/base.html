@@ -15,10 +15,10 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.css'>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-
+    <link rel="icon" href="{{ url_for('static', filename='images/app_logo_small.png') }}" type="image/icon type">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css_1.css') }}">
-{% block css %} {% endblock %}
+    {% block css %} {% endblock %}
     <style>
         *, button {
             font-family: 'Rubik', sans-serif;
@@ -222,7 +222,7 @@ margin-right: 0;" onclick="location.href='{{ url_for('go_login') }}'">Login
                         <div class="footer-logo">
                             <a href="{{ url_for('home_page') }}">
                                 <img src="{{ url_for('static', filename='images/app_logo.png') }}" class="img-fluid"
-                                                      alt="logo" height="100px" width="80px"></a>
+                                     alt="logo" height="100px" width="80px"></a>
                         </div>
                         <div class="footer-text">
                             <p>Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod tempor

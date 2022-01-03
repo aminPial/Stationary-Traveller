@@ -123,7 +123,7 @@ def go_reviews():
     docs = users_ref.stream()
     # for doc in docs:
     #     print(f'{doc.id} => {doc.to_dict()}')
-    r = [doc.to_dict() for doc in docs] * 10
+    r = [doc.to_dict() for doc in docs]
     reviews = [r[i:i + 3] for i in range(0, len(r), 3)]
     print(reviews)
     return render_template('reviews.html', reviews=reviews)
