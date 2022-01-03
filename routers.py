@@ -1,16 +1,27 @@
+import json
 import os
 import sys
+import time
+from datetime import datetime
+from multiprocessing import Process
+from random import randint, choice
 
+import firebase_admin
 import fitz
-from flask import render_template, url_for, send_file
+import pytz
+from firebase_admin import credentials
+from firebase_admin import firestore
 from flask import redirect
+from flask import render_template, url_for, send_file
+from flask import request
 from werkzeug.utils import secure_filename
-from flask import send_from_directory
 
 from server import app
-from random import randint, shuffle, choices, choice
-from flask import request
-from multiprocessing import Process
+
+cred = credentials.Certificate(os.path.join(sys.path[0], "creds.json"))
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 
 @app.route('/')
@@ -108,7 +119,14 @@ def go_about_us():
 
 @app.route('/reviews')
 def go_reviews():
-    return render_template('reviews.html')
+    users_ref = db.collection(u'user-review')
+    docs = users_ref.stream()
+    # for doc in docs:
+    #     print(f'{doc.id} => {doc.to_dict()}')
+    r = [doc.to_dict() for doc in docs] * 10
+    reviews = [r[i:i + 3] for i in range(0, len(r), 3)]
+    print(reviews)
+    return render_template('reviews.html', reviews=reviews)
 
 
 @app.route('/authors')
@@ -142,7 +160,6 @@ def download_pdf(pdf_name: str):
 
 @app.route('/search_for_book/<query_string>')
 def search_for_book(query_string):
-
     books = [{'book_name': b,
               'read_by': randint(100, 1000),
               'book_size': round((os.path.getsize(os.path.join(sys.path[0], 'static', 'pdf', b))) / (1024 ** 2), 2)}
@@ -150,3 +167,15 @@ def search_for_book(query_string):
              b.lower().find(query_string.lower()) != -1]
     books = [books[i:i + 2] for i in range(0, len(books), 2)]
     return render_template('search_result.html', books=books)
+
+
+@app.route('/submit_review', methods=['POST'])
+def submit_review():
+    f = request.form
+    doc_ref = db.collection(u'user-review').document(u'{}'.format(int(time.time())))
+    doc_ref.set({
+        u'username': f['user_name'],
+        u'review_text': f['review_text'],
+        u'when': datetime.now(pytz.timezone('Asia/Dhaka')).strftime("%I:%M:%S %p %d %B,%Y")
+    })
+    return redirect(url_for('go_reviews'))

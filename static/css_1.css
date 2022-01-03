@@ -9,14 +9,15 @@
   --placeholder: #ccd0d2;
 }
 
+
 * {
   outline: none;
   box-sizing: border-box;
 }
 
 ul {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 .footer-section {
   background: url("https://wallpaperaccess.com/full/124383.jpg");
