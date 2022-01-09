@@ -17,7 +17,6 @@ from flask import request
 from werkzeug.utils import secure_filename
 from urllib.parse import quote, unquote
 
-print(sys.path)
 
 from server import app
 
