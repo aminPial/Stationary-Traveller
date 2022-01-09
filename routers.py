@@ -104,8 +104,9 @@ def parse_first_image(file_path: str):
     page = pdf_document_object.loadPage(0)
     pix = page.getPixmap(matrix=fitz.Matrix(2, 2))  # 300 DPI
     pix.writePNG(
-        os.path.join(sys.path[0], 'static', 'pdf_images', "{}.png".format(
+        os.path.realpath(os.path.join('static', 'pdf_images', "{}.png".format(
             file_path.split("/")[-1])))
+    )
     print("Done fetching..")
     return
 
@@ -116,7 +117,7 @@ def upload_pdf():
     print(f['pdf'])
     filename = secure_filename(f['pdf'].filename).lstrip().rstrip()
     if filename:
-        full_file_path = os.path.join(sys.path[0], 'static', 'pdf', "{}".format(filename))
+        full_file_path = os.path.realpath(os.path.join('static', 'pdf', "{}".format(filename)))
         f['pdf'].save(full_file_path)
         Process(target=parse_first_image, args=(full_file_path,)).start()
     return redirect(url_for('go_share_books'))
@@ -201,7 +202,7 @@ def go_read_in():
     books = [{'book_name': b,
               'read_by': randint(100, 1000),
               'book_size': round((os.path.getsize(os.path.join(sys.path[0], 'static', 'pdf', b))) / (1024 ** 2), 2)}
-             for b in os.listdir(os.path.join(sys.path[0], 'static', 'pdf')) if b.endswith(".pdf")]
+             for b in os.listdir(os.path.realpath(os.path.join('static', 'pdf'))) if b.endswith(".pdf")]
     books = [books[i:i + 2] for i in range(0, len(books), 2)]
     print(books)
     return render_template('read_in.html', books=books)
@@ -209,23 +210,24 @@ def go_read_in():
 
 @app.route('/read_pdf/<pdf_name>')
 def read_pdf(pdf_name: str):
-    assert pdf_name in os.listdir(os.path.join(sys.path[0], 'static', 'pdf'))
+    assert pdf_name in os.listdir(os.path.realpath(os.path.join('static', 'pdf')))
     return render_template('read_pdf.html', pdf_name=pdf_name)
 
 
 @app.route('/download_pdf/<pdf_name>')
 def download_pdf(pdf_name: str):
     print(pdf_name)
-    assert pdf_name in os.listdir(os.path.join(sys.path[0], 'static', 'pdf'))
-    return send_file(os.path.join(sys.path[0], 'static', 'pdf', pdf_name), as_attachment=True)
+    assert pdf_name in os.listdir(os.path.realpath(os.path.join('static', 'pdf')))
+    return send_file(os.path.realpath(os.path.join('static', 'pdf', pdf_name)), as_attachment=True)
 
 
 @app.route('/search_for_book/<query_string>')
 def search_for_book(query_string):
     books = [{'book_name': b,
               'read_by': randint(100, 1000),
-              'book_size': round((os.path.getsize(os.path.join(sys.path[0], 'static', 'pdf', b))) / (1024 ** 2), 2)}
-             for b in os.listdir(os.path.join(sys.path[0], 'static', 'pdf')) if b.endswith(".pdf") and
+              'book_size': round((os.path.getsize(os.path.realpath(os.path.join('static', 'pdf', b)))) / (1024 ** 2),
+                                 2)}
+             for b in os.listdir(os.path.realpath(os.path.join(sys.path[0], 'static', 'pdf'))) if b.endswith(".pdf") and
              b.lower().find(query_string.lower()) != -1]
     books = [books[i:i + 2] for i in range(0, len(books), 2)]
     return render_template('search_result.html', books=books)
