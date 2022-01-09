@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 from multiprocessing import Process
 from random import randint, choice
-
+from flask import session, jsonify
 import firebase_admin
 import fitz
 import pytz
@@ -15,8 +15,11 @@ from flask import redirect
 from flask import render_template, url_for, send_file
 from flask import request
 from werkzeug.utils import secure_filename
+from urllib.parse import quote, unquote
 
 from server import app
+
+app.secret_key = os.urandom(32)
 
 cred = credentials.Certificate(os.path.join(sys.path[0], "creds.json"))
 firebase_admin.initialize_app(cred)
@@ -27,6 +30,21 @@ db = firestore.client()
 @app.route('/')
 def home_page():
     return render_template('home.html')
+
+
+@app.route('/submit_book_details', methods=['POST'])
+def submit_book_details():
+    f = request.form
+    session['dat_to_show'] = json.dumps(f.to_dict())
+    return jsonify(url=url_for('see_book_details'))
+
+
+@app.route('/see_book_details')
+def see_book_details():
+    data = json.loads(session['dat_to_show'])
+    print("data: ", data)
+    data: dict
+    return render_template('book_details_page.html', **data)
 
 
 @app.route('/registration')
@@ -134,8 +152,45 @@ def go_authors():
     top_authors = [
         ['J.K Rowling',
          randint(20, 120),
-         'http://prod-upp-image-read.ft.com/366bccd8-47fa-11e3-b1c4-00144feabdc0']
+         'https://wallpapercave.com/wp/wp3635857.jpg']
+        ,
+        ['George R R Martin',
+         randint(20, 120),
+         'https://i.guim.co.uk/img/media/021e90c7e3bf949a9a900722c746da43019ef2a7/235_1068_5648_3389/master/5648.jpg?width=1020&quality=85&auto=format&fit=max&s=9c36a072c2c1c48e4fe9778b5cc2afad']
+        ,
+        ['Yuval Noah Harari',
+         randint(20, 120),
+         'https://static01.nyt.com/images/2018/11/11/business/11HARARI-01/11HARARI-01-superJumbo.jpg?quality=75&auto=webp']
+        ,
+        ['Mark Manson',
+         randint(20, 120),
+         'https://markmanson.net/wp-content/uploads/2019/04/mark-manson-media-kit-hi-res-headshot-square-1.jpg']
+        ,
+        ['Anthony Doerr',
+         randint(20, 120),
+         'https://i.guim.co.uk/img/media/04457d428cdd20659c82604926d5dc25625c306b/0_165_5760_3456/master/5760.jpg?width=1020&quality=85&auto=format&fit=max&s=8b2b7f6ee07bd52ce10bd67cbc39d9d3']
+        ,
+        ['Andrzej Sapkowski',
+         randint(20, 120),
+         'https://www.gamereactor.eu/media/02/witcherauthorreceive_2740213_650x.jpg']
+        ,
+        ['Haruki Murakami',
+         randint(20, 120),
+         'https://api.time.com/wp-content/uploads/2000/04/haruki-murakami-time-100-2015-icons1.jpg?w=800&quality=85']
+        ,
+        ['Sowad Ahmed',
+         randint(20, 120),
+         'https://www.biography.com/.image/t_share/MTE4MDAzNDEwNjUyMjY4MDQ2/james-patterson-9434791-1-402.jpg']
+        ,
+        ['Steve Smith',
+         randint(20, 120),
+         'https://www.cricketcountry.com/wp-content/uploads/2015/11/Steven-Smith.jpg']
+        ,
+        ['Stephen King',
+         randint(20, 120),
+         'https://www.getalternative.com/wp-content/uploads/2016/10/37-1-768x461.jpg']
     ]
+
     return render_template('authors.html', top_authors=top_authors)
 
 
