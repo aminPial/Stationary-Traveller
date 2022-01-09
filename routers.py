@@ -201,7 +201,8 @@ def go_authors():
 def go_read_in():
     books = [{'book_name': b,
               'read_by': randint(100, 1000),
-              'book_size': round((os.path.getsize(os.path.join(sys.path[0], 'static', 'pdf', b))) / (1024 ** 2), 2)}
+              'book_size': round((os.path.getsize(os.path.realpath(os.path.join('static', 'pdf', b)))) / (1024 ** 2),
+                                 2)}
              for b in os.listdir(os.path.realpath(os.path.join('static', 'pdf'))) if b.endswith(".pdf")]
     books = [books[i:i + 2] for i in range(0, len(books), 2)]
     print(books)
@@ -227,7 +228,7 @@ def search_for_book(query_string):
               'read_by': randint(100, 1000),
               'book_size': round((os.path.getsize(os.path.realpath(os.path.join('static', 'pdf', b)))) / (1024 ** 2),
                                  2)}
-             for b in os.listdir(os.path.realpath(os.path.join(sys.path[0], 'static', 'pdf'))) if b.endswith(".pdf") and
+             for b in os.listdir(os.path.realpath(os.path.join('static', 'pdf'))) if b.endswith(".pdf") and
              b.lower().find(query_string.lower()) != -1]
     books = [books[i:i + 2] for i in range(0, len(books), 2)]
     return render_template('search_result.html', books=books)
