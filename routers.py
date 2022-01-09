@@ -23,7 +23,7 @@ from server import app
 
 app.secret_key = os.urandom(32)
 
-cred = credentials.Certificate(os.path.join(sys.path[0], "creds.json"))
+cred = credentials.Certificate(os.path.realpath("creds.json"))
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
