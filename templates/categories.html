@@ -1,41 +1,542 @@
 {% extends 'base.html' %}
 {% block title %} Categories {% endblock %}
 {% block body %}
+    <script>
+    function redirect_to(book_name, book_image, author_name, short_desc) {
+        $.post("/submit_book_details",
+            {
+                book_name: book_name,
+                book_image: book_image,
+                author_name: author_name,
+                short_desc: short_desc
+            },
+            function (data, status) {
+                // alert("Data: " + JSON.stringify(data) + "\nStatus: " + status)
+                window.open(data['url'], '_blank').focus();
+            });
+    }
+    </script>
+    <div class="jumbotron text-center" style="text-align: center;padding: 40px">
 
-  <div class="jumbotron text-center" style="text-align: center;padding: 40px">
-
-{#        <h3 style="font-weight: bolder"><b>Stationary Traveller</b></h3>#}
+        {#        <h3 style="font-weight: bolder"><b>Stationary Traveller</b></h3>#}
         <h5><b>B O O K &nbsp;&nbsp; C A T E G O R I E S</b></h5>
     </div>
 
-    <div class="container" style="padding: 24px">
-
-        {% for cat in categories %}
-
-            <div class="container" style="margin: 20px;">
-                <div class="card text-center"
-                     style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-                    <div class="card-header">
-                        <h4><b>{{ cat }}</b></h4>
+    <div class="container" id="best_deals">
+        <h4 style="text-align: center;padding: 30px;font-weight: bold;color: #44cc35">Classic</h4>
+        <div class="book-slide">
+            <div class="book js-flickity" data-flickity-options='{ "wrapAround": true }'>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/81WcnNQ-TBL.jpg" alt=""
+                             class="book-photo">
                     </div>
-                    <div class="card-body">
-                        <div class="row align-items-start">
-                            {% for sub in categories[cat]['sub'] %}
-                                <div class="col">
-                                    <a href="#"
-                                       class="btn btn-{{ categories[cat]['colors'][loop.index0] }}">{{ sub }}</a>
-                                </div>
-                            {% endfor %}
+                    <div class="book-content">
+                        <div class="book-title">BIG MAGIC</div>
+                        <div class="book-author">by Elizabeth Gilbert</div>
+                        <div class="rate">
+                            <fieldset class="rating">
+                                <input type="checkbox" id="star5" name="rating" value="5"/>
+                                <label class="full" for="star5"></label>
+                                <input type="checkbox" id="star4" name="rating" value="4"/>
+                                <label class="full" for="star4"></label>
+                                <input type="checkbox" id="star3" name="rating" value="3"/>
+                                <label class="full" for="star3"></label>
+                                <input type="checkbox" id="star2" name="rating" value="2"/>
+                                <label class="full" for="star2"></label>
+                                <input type="checkbox" id="star1" name="rating" value="1"/>
+                                <label class="full" for="star1"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$85 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see" style="cursor:pointer;" onclick="redirect_to('BIG MAGIC',
+                        'https://images-na.ssl-images-amazon.com/images/I/81WcnNQ-TBL.jpg',
+                        'Elizabeth Gilbert',
+                        '')">See The Book
+                        </div>
+
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://i.pinimg.com/originals/a8/b9/ff/a8b9ff74ed0f3efd97e09a7a0447f892.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">Ten Thousand Skies Above You</div>
+                        <div class="book-author">by Claudia Gray</div>
+                        <div class="rate">
+                            <fieldset class="rating blue">
+                                <input type="checkbox" id="star6" name="rating" value="5"/>
+                                <label class="full1" for="star6"></label>
+                                <input type="checkbox" id="star7" name="rating" value="4"/>
+                                <label class="full1" for="star7"></label>
+                                <input type="checkbox" id="star8" name="rating" value="3"/>
+                                <label class="full1" for="star8"></label>
+                                <input type="checkbox" id="star9" name="rating" value="2"/>
+                                <label class="full1" for="star9"></label>
+                                <input type="checkbox" id="star10" name="rating" value="1"/>
+                                <label class="full1" for="star10"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$202 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-blue" style="cursor: pointer"
+                             onclick="redirect_to('Ten Thousand Skies Above You',
+                        'https://i.pinimg.com/originals/a8/b9/ff/a8b9ff74ed0f3efd97e09a7a0447f892.jpg',
+                        'Claudia Gray',
+                        '')">See The Book
                         </div>
                     </div>
-                    <div class="card-footer text-muted">
-                        {{ categories[cat]['visitors'] }} people had visited this {{ cat }} genre.
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364722782l/17704370.jpg"
+                             alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">A Tale For The Time Being</div>
+                        <div class="book-author">by Ruth Ozeki</div>
+                        <div class="rate">
+                            <fieldset class="rating purple">
+                                <input type="checkbox" id="star11" name="rating" value="5"/>
+                                <label class="full" for="star11"></label>
+                                <input type="checkbox" id="star12" name="rating" value="4"/>
+                                <label class="full" for="star12"></label>
+                                <input type="checkbox" id="star13" name="rating" value="3"/>
+                                <label class="full" for="star13"></label>
+                                <input type="checkbox" id="star14" name="rating" value="2"/>
+                                <label class="full" for="star14"></label>
+                                <input type="checkbox" id="star15" name="rating" value="1"/>
+                                <label class="full" for="star15"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum">
+                            <h3>$20 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-pink" style="cursor:pointer;" onclick="redirect_to('A Tale For The Time Being',
+                        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364722782l/17704370.jpg',
+                        'Ruth Ozeki',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">The Great Gatsby</div>
+                        <div class="book-author">by F.Scott Fitzgerald</div>
+                        <div class="rate">
+                            <fieldset class="rating yellow">
+                                <input type="checkbox" id="star16" name="rating" value="5"/>
+                                <label class="full" for="star16"></label>
+                                <input type="checkbox" id="star17" name="rating" value="4"/>
+                                <label class="full" for="star17"></label>
+                                <input type="checkbox" id="star18" name="rating" value="3"/>
+                                <label class="full" for="star18"></label>
+                                <input type="checkbox" id="star19" name="rating" value="2"/>
+                                <label class="full" for="star19"></label>
+                                <input type="checkbox" id="star20" name="rating" value="1"/>
+                                <label class="full" for="star20"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$45.5 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-yellow" style="cursor:pointer;" onclick="redirect_to('The Great Gatsby',
+                        'https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg',
+                        'F.Scott Fitzgerald',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/81UWB7oUZ0L.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">After You</div>
+                        <div class="book-author">by Jojo Moyes</div>
+                        <div class="rate">
+                            <fieldset class="rating dark-purp">
+                                <input type="checkbox" id="star21" name="rating" value="5"/>
+                                <label class="full" for="star21"></label>
+                                <input type="checkbox" id="star22" name="rating" value="4"/>
+                                <label class="full" for="star22"></label>
+                                <input type="checkbox" id="star23" name="rating" value="3"/>
+                                <label class="full" for="star23"></label>
+                                <input type="checkbox" id="star24" name="rating" value="2"/>
+                                <label class="full" for="star24"></label>
+                                <input type="checkbox" id="star25" name="rating" value="1"/>
+                                <label class="full" for="star25"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$100 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-purple" style="cursor:pointer;" onclick="redirect_to('After You',
+                        'https://images-na.ssl-images-amazon.com/images/I/81UWB7oUZ0L.jpg',
+                        'Jojo Moyes',
+                        '')">See The Book
+                        </div>
                     </div>
                 </div>
             </div>
-
-        {% endfor %}
-
+        </div>
     </div>
+    <hr style="margin-top: 80px">
+    <div class="container" id="best_deals">
+        <h4 style="text-align: center;padding: 30px;font-weight: bold;color: rgba(239,61,135,0.96)">Adventure</h4>
+        <div class="book-slide">
+            <div class="book js-flickity" data-flickity-options='{ "wrapAround": true }'>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/81WcnNQ-TBL.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">BIG MAGIC</div>
+                        <div class="book-author">by Elizabeth Gilbert</div>
+                        <div class="rate">
+                            <fieldset class="rating">
+                                <input type="checkbox" id="star5" name="rating" value="5"/>
+                                <label class="full" for="star5"></label>
+                                <input type="checkbox" id="star4" name="rating" value="4"/>
+                                <label class="full" for="star4"></label>
+                                <input type="checkbox" id="star3" name="rating" value="3"/>
+                                <label class="full" for="star3"></label>
+                                <input type="checkbox" id="star2" name="rating" value="2"/>
+                                <label class="full" for="star2"></label>
+                                <input type="checkbox" id="star1" name="rating" value="1"/>
+                                <label class="full" for="star1"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$85 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see" style="cursor:pointer;" onclick="redirect_to('BIG MAGIC',
+                        'https://images-na.ssl-images-amazon.com/images/I/81WcnNQ-TBL.jpg',
+                        'Elizabeth Gilbert',
+                        '')">See The Book
+                        </div>
 
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://i.pinimg.com/originals/a8/b9/ff/a8b9ff74ed0f3efd97e09a7a0447f892.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">Ten Thousand Skies Above You</div>
+                        <div class="book-author">by Claudia Gray</div>
+                        <div class="rate">
+                            <fieldset class="rating blue">
+                                <input type="checkbox" id="star6" name="rating" value="5"/>
+                                <label class="full1" for="star6"></label>
+                                <input type="checkbox" id="star7" name="rating" value="4"/>
+                                <label class="full1" for="star7"></label>
+                                <input type="checkbox" id="star8" name="rating" value="3"/>
+                                <label class="full1" for="star8"></label>
+                                <input type="checkbox" id="star9" name="rating" value="2"/>
+                                <label class="full1" for="star9"></label>
+                                <input type="checkbox" id="star10" name="rating" value="1"/>
+                                <label class="full1" for="star10"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$202 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-blue" style="cursor: pointer"
+                             onclick="redirect_to('Ten Thousand Skies Above You',
+                        'https://i.pinimg.com/originals/a8/b9/ff/a8b9ff74ed0f3efd97e09a7a0447f892.jpg',
+                        'Claudia Gray',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/81UWB7oUZ0L.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">After You</div>
+                        <div class="book-author">by Jojo Moyes</div>
+                        <div class="rate">
+                            <fieldset class="rating dark-purp">
+                                <input type="checkbox" id="star21" name="rating" value="5"/>
+                                <label class="full" for="star21"></label>
+                                <input type="checkbox" id="star22" name="rating" value="4"/>
+                                <label class="full" for="star22"></label>
+                                <input type="checkbox" id="star23" name="rating" value="3"/>
+                                <label class="full" for="star23"></label>
+                                <input type="checkbox" id="star24" name="rating" value="2"/>
+                                <label class="full" for="star24"></label>
+                                <input type="checkbox" id="star25" name="rating" value="1"/>
+                                <label class="full" for="star25"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$100 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-purple" style="cursor:pointer;" onclick="redirect_to('After You',
+                        'https://images-na.ssl-images-amazon.com/images/I/81UWB7oUZ0L.jpg',
+                        'Jojo Moyes',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364722782l/17704370.jpg"
+                             alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">A Tale For The Time Being</div>
+                        <div class="book-author">by Ruth Ozeki</div>
+                        <div class="rate">
+                            <fieldset class="rating purple">
+                                <input type="checkbox" id="star11" name="rating" value="5"/>
+                                <label class="full" for="star11"></label>
+                                <input type="checkbox" id="star12" name="rating" value="4"/>
+                                <label class="full" for="star12"></label>
+                                <input type="checkbox" id="star13" name="rating" value="3"/>
+                                <label class="full" for="star13"></label>
+                                <input type="checkbox" id="star14" name="rating" value="2"/>
+                                <label class="full" for="star14"></label>
+                                <input type="checkbox" id="star15" name="rating" value="1"/>
+                                <label class="full" for="star15"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum">
+                            <h3>$20 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-pink" style="cursor:pointer;" onclick="redirect_to('A Tale For The Time Being',
+                        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364722782l/17704370.jpg',
+                        'Ruth Ozeki',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">The Great Gatsby</div>
+                        <div class="book-author">by F.Scott Fitzgerald</div>
+                        <div class="rate">
+                            <fieldset class="rating yellow">
+                                <input type="checkbox" id="star16" name="rating" value="5"/>
+                                <label class="full" for="star16"></label>
+                                <input type="checkbox" id="star17" name="rating" value="4"/>
+                                <label class="full" for="star17"></label>
+                                <input type="checkbox" id="star18" name="rating" value="3"/>
+                                <label class="full" for="star18"></label>
+                                <input type="checkbox" id="star19" name="rating" value="2"/>
+                                <label class="full" for="star19"></label>
+                                <input type="checkbox" id="star20" name="rating" value="1"/>
+                                <label class="full" for="star20"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$45.5 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-yellow" style="cursor:pointer;" onclick="redirect_to('The Great Gatsby',
+                        'https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg',
+                        'F.Scott Fitzgerald',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr style="margin-top: 80px">
+    <div class="container" id="best_deals">
+        <h4 style="text-align: center;padding: 30px;font-weight: bold;color: rgb(30,120,189)">Sci-Fi</h4>
+        <div class="book-slide">
+            <div class="book js-flickity" data-flickity-options='{ "wrapAround": true }'>
+
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">The Great Gatsby</div>
+                        <div class="book-author">by F.Scott Fitzgerald</div>
+                        <div class="rate">
+                            <fieldset class="rating yellow">
+                                <input type="checkbox" id="star16" name="rating" value="5"/>
+                                <label class="full" for="star16"></label>
+                                <input type="checkbox" id="star17" name="rating" value="4"/>
+                                <label class="full" for="star17"></label>
+                                <input type="checkbox" id="star18" name="rating" value="3"/>
+                                <label class="full" for="star18"></label>
+                                <input type="checkbox" id="star19" name="rating" value="2"/>
+                                <label class="full" for="star19"></label>
+                                <input type="checkbox" id="star20" name="rating" value="1"/>
+                                <label class="full" for="star20"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$45.5 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-yellow" style="cursor:pointer;" onclick="redirect_to('The Great Gatsby',
+                        'https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg',
+                        'F.Scott Fitzgerald',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/81UWB7oUZ0L.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">After You</div>
+                        <div class="book-author">by Jojo Moyes</div>
+                        <div class="rate">
+                            <fieldset class="rating dark-purp">
+                                <input type="checkbox" id="star21" name="rating" value="5"/>
+                                <label class="full" for="star21"></label>
+                                <input type="checkbox" id="star22" name="rating" value="4"/>
+                                <label class="full" for="star22"></label>
+                                <input type="checkbox" id="star23" name="rating" value="3"/>
+                                <label class="full" for="star23"></label>
+                                <input type="checkbox" id="star24" name="rating" value="2"/>
+                                <label class="full" for="star24"></label>
+                                <input type="checkbox" id="star25" name="rating" value="1"/>
+                                <label class="full" for="star25"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$100 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-purple" style="cursor:pointer;" onclick="redirect_to('After You',
+                        'https://images-na.ssl-images-amazon.com/images/I/81UWB7oUZ0L.jpg',
+                        'Jojo Moyes',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/81WcnNQ-TBL.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">BIG MAGIC</div>
+                        <div class="book-author">by Elizabeth Gilbert</div>
+                        <div class="rate">
+                            <fieldset class="rating">
+                                <input type="checkbox" id="star5" name="rating" value="5"/>
+                                <label class="full" for="star5"></label>
+                                <input type="checkbox" id="star4" name="rating" value="4"/>
+                                <label class="full" for="star4"></label>
+                                <input type="checkbox" id="star3" name="rating" value="3"/>
+                                <label class="full" for="star3"></label>
+                                <input type="checkbox" id="star2" name="rating" value="2"/>
+                                <label class="full" for="star2"></label>
+                                <input type="checkbox" id="star1" name="rating" value="1"/>
+                                <label class="full" for="star1"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$85 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see" style="cursor:pointer;" onclick="redirect_to('BIG MAGIC',
+                        'https://images-na.ssl-images-amazon.com/images/I/81WcnNQ-TBL.jpg',
+                        'Elizabeth Gilbert',
+                        '')">See The Book
+                        </div>
+
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://i.pinimg.com/originals/a8/b9/ff/a8b9ff74ed0f3efd97e09a7a0447f892.jpg" alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">Ten Thousand Skies Above You</div>
+                        <div class="book-author">by Claudia Gray</div>
+                        <div class="rate">
+                            <fieldset class="rating blue">
+                                <input type="checkbox" id="star6" name="rating" value="5"/>
+                                <label class="full1" for="star6"></label>
+                                <input type="checkbox" id="star7" name="rating" value="4"/>
+                                <label class="full1" for="star7"></label>
+                                <input type="checkbox" id="star8" name="rating" value="3"/>
+                                <label class="full1" for="star8"></label>
+                                <input type="checkbox" id="star9" name="rating" value="2"/>
+                                <label class="full1" for="star9"></label>
+                                <input type="checkbox" id="star10" name="rating" value="1"/>
+                                <label class="full1" for="star10"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum"><h3>$202 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-blue" style="cursor: pointer"
+                             onclick="redirect_to('Ten Thousand Skies Above You',
+                        'https://i.pinimg.com/originals/a8/b9/ff/a8b9ff74ed0f3efd97e09a7a0447f892.jpg',
+                        'Claudia Gray',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+                <div class="book-cell">
+                    <div class="book-img">
+                        <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364722782l/17704370.jpg"
+                             alt=""
+                             class="book-photo">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-title">A Tale For The Time Being</div>
+                        <div class="book-author">by Ruth Ozeki</div>
+                        <div class="rate">
+                            <fieldset class="rating purple">
+                                <input type="checkbox" id="star11" name="rating" value="5"/>
+                                <label class="full" for="star11"></label>
+                                <input type="checkbox" id="star12" name="rating" value="4"/>
+                                <label class="full" for="star12"></label>
+                                <input type="checkbox" id="star13" name="rating" value="3"/>
+                                <label class="full" for="star13"></label>
+                                <input type="checkbox" id="star14" name="rating" value="2"/>
+                                <label class="full" for="star14"></label>
+                                <input type="checkbox" id="star15" name="rating" value="1"/>
+                                <label class="full" for="star15"></label>
+                            </fieldset>
+                            <span class="book-voters">1.987 voters</span>
+                        </div>
+                        <div class="book-sum">
+                            <h3>$20 <span style="font-size: 16px">BDT.</span></h3>
+                        </div>
+                        <div class="book-see book-pink" style="cursor:pointer;" onclick="redirect_to('A Tale For The Time Being',
+                        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364722782l/17704370.jpg',
+                        'Ruth Ozeki',
+                        '')">See The Book
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
